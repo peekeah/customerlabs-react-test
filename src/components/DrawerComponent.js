@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Box, Drawer, IconButton, styled } from "@mui/material";
+import {
+  Box,
+  Drawer,
+  IconButton,
+  styled,
+} from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axios from "axios";
 import DisplayFields from "./DisplayFields";
@@ -7,7 +12,7 @@ import SelectComponent from "./SelectComponent";
 function DrawerComponent({ setOpen }) {
   const [segmentName, setSegmentName] = useState("");
   const [selectValue, setSelectValue] = useState("");
-
+  
   const [availableFields, setAvailableFields] = useState([
     { label: "Gender", value: "gender" },
     { label: "Age", value: "age" },
@@ -28,12 +33,6 @@ function DrawerComponent({ setOpen }) {
     flexDirection: "column",
     justifyContent: "space-between",
   });
-
-  const handleChange = (e) => {
-    // debugger
-    setSegmentName(e.target.value);
-    console.log(e.target.value);
-  };
 
   const addField = () => {
     let temp = availableFields.filter((s) => s.value === selectValue)[0];
@@ -70,18 +69,15 @@ function DrawerComponent({ setOpen }) {
       return obj;
     });
 
-    console.log({segmentName, schema})
-
     // Api Call
+    const data = { segmentName, schema };
 
-    // try {
-    //     const res = await axios.get(URL, {segmentName, schema});
-    //     console.log(res);
-    // } catch (err) {
-    //   console.log(err);
-    // }
-
-    // setOpen(false);
+    try {
+      await axios.post(URL, data);
+    } catch (err) {
+      console.log(err);
+    }
+    setOpen(false);
   };
 
   return (
@@ -125,7 +121,7 @@ function DrawerComponent({ setOpen }) {
                   <div className="">-Group Traits</div>
                 </div>
               </div>
-              
+
               {/* // Mapping selected fields */}
               {selectedFields.length > 0 && (
                 <DisplayFields

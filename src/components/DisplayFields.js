@@ -4,8 +4,7 @@ import { IconButton } from "@mui/material";
 
 function DisplayFields({ fields, removeField }) {
     return (
-        <table className="w-full">
-            <tbody>
+        <div className="w-full">
             {fields.map((s, id) => (
                 <div key={id} className="grid grid-cols-10" >
                     <div className="col-span-1 flex items-center justify-center">
@@ -23,8 +22,7 @@ function DisplayFields({ fields, removeField }) {
                     </div>
                 </div>
             ))}
-            </tbody>
-        </table>
+        </div>
     );
 }
 
