@@ -45,10 +45,13 @@ function DrawerComponent({ setOpen }) {
       return obj;
     });
 
+    console.log({segmentName, schema})
+
     // Api Call
+    
 
   }
-
+console.log(segmentName)
   return (
     <Drawer anchor="right" open={true} onClose={() => setOpen(false)}>
       <Box
@@ -128,7 +131,7 @@ function DrawerComponent({ setOpen }) {
         <div className="bg-slate-100 h-30 p-8">
           <button
             className="bg-green-500 p-3 rounded-md text-white font-semibold disabled:opacity-25"
-            disabled={selectedFields.length > 0 ? false : true}
+            disabled={segmentName.length < 1 || selectedFields.length < 1  ? true : false}
             onClick={handleSubmit}
           >
             Save the Segment
