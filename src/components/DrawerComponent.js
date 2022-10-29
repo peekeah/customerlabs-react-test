@@ -4,6 +4,9 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import DisplayFields from "./DisplayFields";
 import SelectComponent from "./SelectComponent";
 function DrawerComponent({ setOpen }) {
+
+  const [selectValue, setSelectValue] = useState("");
+
   const [availableFields, setAvailableFields] = useState([
     // { label: "First Name", value: "first_name" },
     // { label: "Last Name", value: "last_name" },
@@ -18,6 +21,19 @@ function DrawerComponent({ setOpen }) {
     { label: "First Name", value: "first_name" },
     { label: "Last Name", value: "last_name" },
   ])
+
+  const addField = () => {
+    console.log('add field')
+    let temp = availableFields.filter(s => s.value === selectValue)[0];
+    setSelectedFields((prev) => ([...prev, temp]));
+    let availabelFieldsCopy = availableFields.filter(s => s.value !== selectValue);
+    setAvailableFields(availabelFieldsCopy);
+    setSelectValue("");
+  }
+
+  const deleteField = () => {
+    console.log('delete field')
+  }
 
 
   return (
@@ -65,8 +81,9 @@ function DrawerComponent({ setOpen }) {
             </div>
             {/* // Mapping selected fields */}
             <DisplayFields fields={selectedFields} />
-            <SelectComponent fields={availableFields} />
-            <div className="text-green-500 font-semibold cursor-pointer"  onClick={() => console.log('hello')} >
+            <SelectComponent fields={availableFields} selectValue={selectValue} setSelectValue={setSelectValue} />
+            <button className="focus:outline-none disabled:opacity-25" disabled={selectValue === "" ? true : false}>
+            <div className="text-green-500 font-semibold cursor-pointer" onClick={addField}>
               +
               <span
                 className="border-b-2 border-green-500"
@@ -75,6 +92,7 @@ function DrawerComponent({ setOpen }) {
                 Add new schema
               </span>
             </div>
+            </button>
           </div>
         </div>
         <div className="bg-slate-100 h-30 p-8">
