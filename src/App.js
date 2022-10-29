@@ -1,23 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import DrawerComponent from "./components/DrawerComponent";
 
 function App() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex h-screen justify-center items-center">
+      <button
+        className="p-2 border-2 border-black bg-yellow-300"
+        onClick={() => setOpen(true)}
+      >
+        Save Segment
+      </button>
+      {open && <DrawerComponent setOpen={setOpen} />}
     </div>
   );
 }
