@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Box, Drawer } from "@mui/material";
+import { Box, Drawer, IconButton } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import DisplayFields from "./DisplayFields";
+import SelectComponent from "./SelectComponent";
 function DrawerComponent({ setOpen }) {
-  const [fields, setFields] = useState([
-    { label: "First Name", value: "first_name" },
-    { label: "Last Name", value: "last_name" },
+  const [availableFields, setAvailableFields] = useState([
+    // { label: "First Name", value: "first_name" },
+    // { label: "Last Name", value: "last_name" },
     { label: "Gender", value: "gender" },
     { label: "Age", value: "age" },
     { label: "Account Name", value: "account_name" },
@@ -13,9 +14,11 @@ function DrawerComponent({ setOpen }) {
     { label: "State", value: "state" },
   ]);
 
-  // const [selectLabels, setSelectLabels] = ([
-  // ['First Name', 'Last Name', 'Gender', 'Age', 'Account Name', 'City', 'State']
-  // ])
+  const [selectedFields, setSelectedFields] = useState([
+    { label: "First Name", value: "first_name" },
+    { label: "Last Name", value: "last_name" },
+  ])
+
 
   return (
     <Drawer anchor="right" open={true} onClose={() => setOpen(false)}>
@@ -28,10 +31,11 @@ function DrawerComponent({ setOpen }) {
           justifyContent: "space-between",
         }}
       >
-        <div
-          className="container flex-col justify-between">
+        <div className="container flex-col justify-between">
           <div className="bg-blue-500 text-white text-xl p-7">
-            <ArrowBackIosIcon />
+            <IconButton onClick={() => setOpen(false)}>
+              <ArrowBackIosIcon style={{color: "white"}} />
+            </IconButton>
             Saving Segment
           </div>
           <div className="p-5 space-y-5">
@@ -60,8 +64,9 @@ function DrawerComponent({ setOpen }) {
               </div>
             </div>
             {/* // Mapping selected fields */}
-            <DisplayFields fields={fields} />
-            <div className="text-green-500 font-semibold cursor-pointer">
+            <DisplayFields fields={selectedFields} />
+            <SelectComponent fields={availableFields} />
+            <div className="text-green-500 font-semibold cursor-pointer"  onClick={() => console.log('hello')} >
               +
               <span
                 className="border-b-2 border-green-500"
@@ -76,7 +81,7 @@ function DrawerComponent({ setOpen }) {
           <button className="bg-green-500 p-3 rounded-md text-white font-semibold">
             Save the Segment
           </button>
-          <button className="bg-white p-3 mx-5 rounded-md text-red-600 font-semibold">
+          <button className="bg-white p-3 mx-5 rounded-md text-red-600 font-semibold" onClick={ () => setOpen(false)} >
             Cancel
           </button>
         </div>
