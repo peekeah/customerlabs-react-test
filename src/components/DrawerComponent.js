@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Drawer, IconButton } from "@mui/material";
+import { Box, Drawer, IconButton, styled } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import DisplayFields from "./DisplayFields";
 import SelectComponent from "./SelectComponent";
@@ -19,7 +19,15 @@ function DrawerComponent({ setOpen }) {
     { label: "First Name", value: "first_name" },
     { label: "Last Name", value: "last_name" },
   ]);
-
+  
+    const StyledBox = styled(Box)({
+        display: "flex",
+        minHeight: "100vh",
+        maxWidth: 550,
+        flexDirection: "column",
+        justifyContent: "space-between",
+    });
+  
   const addField = () => {
     let temp = availableFields.filter((s) => s.value === selectValue)[0];
     setSelectedFields((prev) => [...prev, temp]);
@@ -49,22 +57,15 @@ function DrawerComponent({ setOpen }) {
 
     // Api Call
     
+    setOpen(false);
 
   }
-console.log(segmentName)
+
   return (
     <Drawer anchor="right" open={true} onClose={() => setOpen(false)}>
-      <Box
-        sx={{ width: 550 }}
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
+      <StyledBox>
         <div className="container flex-col justify-between">
-          <div className="bg-blue-500 text-white text-xl p-7">
+          <div className="text-white text-xl p-5" style={{backgroundColor: '#39aebc'}}>
             <IconButton onClick={() => setOpen(false)}>
               <ArrowBackIosIcon style={{ color: "white" }} />
             </IconButton>
@@ -143,7 +144,7 @@ console.log(segmentName)
             Cancel
           </button>
         </div>
-      </Box>
+        </StyledBox>
     </Drawer>
   );
 }
