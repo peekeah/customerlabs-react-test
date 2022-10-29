@@ -70,7 +70,7 @@ function DrawerComponent({ setOpen }) {
       return obj;
     });
 
-    // console.log({segmentName, schema})
+    console.log({segmentName, schema})
 
     // Api Call
 
@@ -125,6 +125,7 @@ function DrawerComponent({ setOpen }) {
                   <div className="">-Group Traits</div>
                 </div>
               </div>
+              
               {/* // Mapping selected fields */}
               {selectedFields.length > 0 && (
                 <DisplayFields
@@ -160,8 +161,7 @@ function DrawerComponent({ setOpen }) {
             <button
               className="bg-green-500 p-3 rounded-md text-white font-semibold disabled:opacity-25"
               type="submit"
-              // disabled={disableButton()}
-              // onClick={handleSubmit}
+              disabled={disableButton()}
             >
               Save the Segment
             </button>
