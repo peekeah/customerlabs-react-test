@@ -4,12 +4,10 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import DisplayFields from "./DisplayFields";
 import SelectComponent from "./SelectComponent";
 function DrawerComponent({ setOpen }) {
-
+  const [segmentName, setSegmentName] = useState("");
   const [selectValue, setSelectValue] = useState("");
 
   const [availableFields, setAvailableFields] = useState([
-    // { label: "First Name", value: "first_name" },
-    // { label: "Last Name", value: "last_name" },
     { label: "Gender", value: "gender" },
     { label: "Age", value: "age" },
     { label: "Account Name", value: "account_name" },
@@ -20,21 +18,36 @@ function DrawerComponent({ setOpen }) {
   const [selectedFields, setSelectedFields] = useState([
     { label: "First Name", value: "first_name" },
     { label: "Last Name", value: "last_name" },
-  ])
+  ]);
 
   const addField = () => {
-    console.log('add field')
-    let temp = availableFields.filter(s => s.value === selectValue)[0];
-    setSelectedFields((prev) => ([...prev, temp]));
-    let availabelFieldsCopy = availableFields.filter(s => s.value !== selectValue);
+    let temp = availableFields.filter((s) => s.value === selectValue)[0];
+    setSelectedFields((prev) => [...prev, temp]);
+    let availabelFieldsCopy = availableFields.filter(
+      (s) => s.value !== selectValue
+    );
     setAvailableFields(availabelFieldsCopy);
     setSelectValue("");
-  }
+  };
 
-  const deleteField = () => {
-    console.log('delete field')
-  }
+  const removeField = (value) => {
+    let temp = selectedFields.filter((s) => s.value === value)[0];
+    setAvailableFields((prev) => [...prev, temp]);
+    let selectedFieldsCopy = selectedFields.filter((s) => s.value !== value);
+    setSelectedFields(selectedFieldsCopy);
+    setSelectValue("");
+  };
 
+  const handleSubmit = async() => {
+    const schema = selectedFields.map(s => {
+      let obj = {};
+      obj[s.value] = s.label;
+      return obj;
+    });
+
+    // Api Call
+
+  }
 
   return (
     <Drawer anchor="right" open={true} onClose={() => setOpen(false)}>
@@ -50,7 +63,7 @@ function DrawerComponent({ setOpen }) {
         <div className="container flex-col justify-between">
           <div className="bg-blue-500 text-white text-xl p-7">
             <IconButton onClick={() => setOpen(false)}>
-              <ArrowBackIosIcon style={{color: "white"}} />
+              <ArrowBackIosIcon style={{ color: "white" }} />
             </IconButton>
             Saving Segment
           </div>
@@ -63,6 +76,8 @@ function DrawerComponent({ setOpen }) {
                 type="text"
                 className="border border-black my-3 p-2 w-full"
                 placeholder="Name of the segment"
+                value={segmentName}
+                onChange={(e) => setSegmentName(e.target.value)}
               />
             </div>
             <div className="font-semibold text-xl">
@@ -80,26 +95,48 @@ function DrawerComponent({ setOpen }) {
               </div>
             </div>
             {/* // Mapping selected fields */}
-            <DisplayFields fields={selectedFields} />
-            <SelectComponent fields={availableFields} selectValue={selectValue} setSelectValue={setSelectValue} />
-            <button className="focus:outline-none disabled:opacity-25" disabled={selectValue === "" ? true : false}>
-            <div className="text-green-500 font-semibold cursor-pointer" onClick={addField}>
-              +
-              <span
-                className="border-b-2 border-green-500"
-                style={{ paddingBottem: "1.3px" }}
+            {selectedFields.length > 0 && (
+              <DisplayFields
+                fields={selectedFields}
+                removeField={removeField}
+              />
+            )}
+            <SelectComponent
+              fields={availableFields}
+              selectValue={selectValue}
+              setSelectValue={setSelectValue}
+            />
+            <button
+              className="focus:outline-none disabled:opacity-25"
+              disabled={selectValue !== "" ? false : true}
+            >
+              <div
+                className="text-green-500 font-semibold cursor-pointer"
+                onClick={addField}
               >
-                Add new schema
-              </span>
-            </div>
+                +
+                <span
+                  className="border-b-2 border-green-500"
+                  style={{ paddingBottem: "1.3px" }}
+                >
+                  Add new schema
+                </span>
+              </div>
             </button>
           </div>
         </div>
         <div className="bg-slate-100 h-30 p-8">
-          <button className="bg-green-500 p-3 rounded-md text-white font-semibold">
+          <button
+            className="bg-green-500 p-3 rounded-md text-white font-semibold disabled:opacity-25"
+            disabled={selectedFields.length > 0 ? false : true}
+            onClick={handleSubmit}
+          >
             Save the Segment
           </button>
-          <button className="bg-white p-3 mx-5 rounded-md text-red-600 font-semibold" onClick={ () => setOpen(false)} >
+          <button
+            className="bg-white p-3 mx-5 rounded-md text-red-600 font-semibold"
+            onClick={() => setOpen(false)}
+          >
             Cancel
           </button>
         </div>

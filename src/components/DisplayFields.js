@@ -2,7 +2,7 @@ import React from "react";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { IconButton } from "@mui/material";
 
-function DisplayFields({ fields }) {
+function DisplayFields({ fields, removeField }) {
     return (
         <table>
             <tbody>
@@ -10,7 +10,7 @@ function DisplayFields({ fields }) {
                 <tr key={id}>
                 <td>{s.label}</td>
                 <td>
-                    <IconButton>
+                    <IconButton onClick={() => removeField(s.value)}>
                     <RemoveIcon />
                     </IconButton>
                 </td>

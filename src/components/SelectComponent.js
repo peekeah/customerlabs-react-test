@@ -6,8 +6,7 @@ function SelectComponent({ fields, selectValue, setSelectValue }) {
   const handleChange = (e) => {
     setSelectValue(e.target.value);
   };
-  
-  console.log(selectValue)
+
   return (
     <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">
